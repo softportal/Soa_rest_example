@@ -19,6 +19,7 @@ import negocio.FactoriaNegocio;
 import negocio.localidad.SALocalidad;
 import negocio.localidad.TLocalidad;
 
+
 @Path("/localidad/wsb")
 public class LocalidadWSB {
 	@GET
@@ -47,7 +48,7 @@ public class LocalidadWSB {
 		SALocalidad service = negocio.generaSALocalidad();
 		String res = "";
 		try {
-			res = service.read((Integer.parseInt(l.get(0)))).toString();
+			res = service.read((Integer.parseInt(s))).toString();
 			
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -58,9 +59,28 @@ public class LocalidadWSB {
 	
 	@DELETE
 	@Produces("text/plain")
-	public String readDELETE(@QueryParam("nombre") String nombre, @QueryParam("apellido") String apellido)
+	public String readDELETE(@QueryParam("id") String id)
 	{	
-		return "";
+		FactoriaNegocio negocio = FactoriaNegocio.getInstancia();
+		SALocalidad service = negocio.generaSALocalidad();
+		
+		return service.read(Integer.parseInt(id)).toString();
+	}
+	
+	@PUT
+	@Path("/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces("text/plain")
+	public String insertPUTjson(TLocalidad l)
+	{
+		String mensaje = "";
+		SALocalidad sa= FactoriaNegocio.getInstancia().generaSALocalidad();
+		int res= sa.create(l);
+          
+        if (res>0) { mensaje="Se ha creado la localidad con id "+ res; }
+        else {mensaje= "Error en la creacion"; }
+        
+        return mensaje;
 	}
 
 	@PUT

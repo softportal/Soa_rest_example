@@ -1,5 +1,8 @@
 package negocio.localidad;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class TLocalidad {
 
 	int id;
