@@ -70,7 +70,7 @@ public class LocalidadWSB {
 	@PUT
 	@Path("/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces("text/plain")
+	@Produces(MediaType.TEXT_PLAIN)
 	public String insertPUTjson(TLocalidad l)
 	{
 		String mensaje = "";
