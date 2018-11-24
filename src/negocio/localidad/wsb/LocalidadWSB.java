@@ -43,7 +43,6 @@ public class LocalidadWSB {
 	@POST
 	public Response readPOST(String s)
 	{	
-		List<String> l = Arrays.asList(s.split("\\s*,\\s*"));
 		FactoriaNegocio negocio = FactoriaNegocio.getInstancia();
 		SALocalidad service = negocio.generaSALocalidad();
 		String res = "";
@@ -53,6 +52,47 @@ public class LocalidadWSB {
 		} catch (Exception e) {
 			// TODO: handle exception
 			res = "Not found!";
+		}
+		return Response.ok(res).build();
+	}
+	
+	@POST
+	@Path("/delete")
+	public Response deletePOST(String s)
+	{	
+		FactoriaNegocio negocio = FactoriaNegocio.getInstancia();
+		SALocalidad service = negocio.generaSALocalidad();
+		String mensaje = "deleted!";
+		int id = Integer.parseInt(s);
+		int res = service.delete(id);
+
+		if (res == 1) { mensaje= "Se ha eliminado la localidad con id " + id; }
+        else {mensaje= "Error en la eliminaci�n"; }
+		return Response.ok(mensaje).build();
+	}
+	
+	@POST
+	@Path("/update")
+	public Response updatePOST(String s)
+	{	
+		List<String> l = Arrays.asList(s.split("\\s*,\\s*"));
+		String id  = l.get(0);
+		String n   = l.get(1);
+		String lon = l.get(2);
+		String lat = l.get(3);
+		String a   = l.get(4); 
+		
+		FactoriaNegocio negocio = FactoriaNegocio.getInstancia();
+		SALocalidad service = negocio.generaSALocalidad();
+		TLocalidad tl= new TLocalidad(Integer.parseInt(id), n, Integer.parseInt(lon), Integer.parseInt(lat), Integer.parseInt(a));
+         
+		String res = "updated!";
+		try {
+			service.update(tl);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			res = "An error with the update!";
 		}
 		return Response.ok(res).build();
 	}
